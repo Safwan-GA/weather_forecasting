@@ -231,20 +231,43 @@ document.addEventListener('DOMContentLoaded', () => {
     //   }
     // }
 
-    function addCityToRecent(city) {
-        let recentCities = JSON.parse(localStorage.getItem(recentCitiesKey)) || [];
-    
-        // Remove if it already exists
-        recentCities = recentCities.filter(c => c.toLowerCase() !== city.toLowerCase());
-    
-        // Add to front
-        recentCities.unshift(city);
-    
-        // Keep only the latest 5
-        recentCities = recentCities.slice(0, 5);
-    
-        localStorage.setItem(recentCitiesKey, JSON.stringify(recentCities));
-    }
+    // Function to add city to recent cities list after successful weather data retrieval
+function addCityToRecent(city) {
+    const url = `${weatherApiUrl}current.json?key=${apiKey}&q=${city}`;
+
+    // Fetch the weather data for the city
+    fetch(url)
+        .then((response) => {
+            if (!response.ok) {
+                throw new Error('City not found or API error.');
+            }
+            return response.json();
+        })
+        .then((data) => {
+            // If the data is valid, proceed to update recent cities
+            let recentCities = JSON.parse(localStorage.getItem(recentCitiesKey)) || [];
+
+            // Remove the city if it already exists
+            recentCities = recentCities.filter(c => c.toLowerCase() !== city.toLowerCase());
+
+            // Add the city to the front of the list
+            recentCities.unshift(city);
+
+            // Keep only the latest 5 cities
+            recentCities = recentCities.slice(0, 5);
+
+            // Save the updated recent cities list to localStorage
+            localStorage.setItem(recentCitiesKey, JSON.stringify(recentCities));
+
+            // Optionally update the dropdown (if needed)
+            updateRecentCitiesDropdown();
+        })
+        .catch((error) => {
+            console.error('Failed to fetch weather data:', error.message);
+            alert('Error: Unable to fetch data for the city. Please try again.');
+        });
+}
+
     function showRecentDropdown() {
         const recentCities = JSON.parse(localStorage.getItem(recentCitiesKey)) || [];
         recentDropdown.innerHTML = '';
