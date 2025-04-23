@@ -5,7 +5,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const apiKey = 'Your_api_Key'; // Replace 'your-api-key' with your actual API key from OpenWeatherMap or another provider
     const weatherApiUrl = 'https://api.weatherapi.com/v1/';
     const recentCitiesKey = 'recentCities';
-    const forecastDayNumber=4; //always put forecastDayNumber + 1, since it will todays forecast also.
+    const forecastDayNumber=4; //always put forecastDayNumber + 1, since it will fetch same day forecast also.
 
     // DOM Elements
     const cityInput = document.getElementById('city-input');
