@@ -39,3 +39,8 @@ This is a simple and interactive weather forecast web application that allows us
 
 ### Interactive Map
 - The map is centered on India by default. You can click anywhere on the map to fetch the weather of that location.
+
+Clone the repository:
+   ```bash
+   git clone https://github.com/yourusername/weather-forecast-app.git
+   cd weather-forecast-app
